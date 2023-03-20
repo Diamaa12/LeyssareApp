@@ -1,0 +1,18 @@
+{% extends 'leyssare/base.html' %}
+
+{% load static%}
+
+{% block title %}<title>Total depense</title>{% endblock%}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/nicepage.css'%}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/total_depense.css'%}" media="screen">
+  <p style="background-color:#54DC69; text-align:center; color:white">Salam {{user}}</p>
+  <section class="section">
+    <div class="container">
+        {% if data %}
+            <p> Total depensées: {{data}}</p>
+        {% endif %}
+    </div>
+
+  </section>
+{% endblock %}

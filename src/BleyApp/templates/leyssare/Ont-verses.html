@@ -1,0 +1,18 @@
+{% extends 'leyssare/base.html' %}
+
+{% load static%}
+
+{% block title %}<title>Membre qui ont cotisés </title>{% endblock%}
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/nicepage.css'%}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/Ont-verses.css'%}" media="screen">
+    <section class="u-align-center u-clearfix u-image u-shading u-section-1" src="{% static 'images/mangue.jpg'%}" data-image-width="768" data-image-height="512" id="sec-fa73">
+      <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <h1 class="u-text u-text-default u-title u-text-1">Les membres qui ont participés​&nbsp; </h1>
+        <p class="u-large-text u-text u-text-default u-text-variant u-text-2">Pour voir la liste mise à jour de ceux qui ont versés pour leurs participations personnelle aux cotisation semestrielle de notre association Leyssaré-bourou, veuillez clicker sur le boutton en-bas.</p>
+        <a href="{% url 'BleyApp:authentication' urls=request.path urls_param='membres_ont_versees' %}" class="u-btn u-btn-round u-button-style u-palette-1-base u-radius-10 u-btn-1">click here</a>
+      </div>
+    </section>
+    
+{% endblock %}

@@ -1,0 +1,29 @@
+body{
+padding:0px;
+margin:0px;
+}
+.message{
+    margin-top:15px;
+    padding:5px;
+    border:1px solid red;
+    border-radius:5px;
+    text-align:center;
+    color:red;
+
+}
+.deconnect{
+ text-align:center;
+ margin-top:15px;
+ color:#57e48a;
+ padding:5px;
+ border-radius:5px;
+ border: 1px solid #57e48a;
+}
+.log{
+    border-radius:5px;
+    border: 1px solid #57e48a;
+    text-align:center;
+    margin-top:15px;
+    padding:5px;
+    color:#57e48a;
+}

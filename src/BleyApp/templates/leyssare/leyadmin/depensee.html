@@ -1,0 +1,66 @@
+{% extends 'leyssare/leyadmin/adminbase.html' %}
+
+{% load static%}
+
+{% block title %}<title>UserCreation </title>{% endblock%}
+{% block content %}
+    <section>
+        <h5 class="para2">Gestionneur de dépense de Bolondha Leyssare.</h5>
+      {% if data %}
+        <p style="color:green">{{data}}</p>
+        <a href="{% url 'BleyApp:tresorerie' %}">cliquer ici pour retourner à la page 'Membres' </a>
+      {% elif not data %}
+        <div class="principal">
+            <p>Veillez entrer le montant depensé en Franc Guinéen</p>
+            <form action="{% url 'BleyApp:montantdepensee' %}" method="post">
+                {% csrf_token %}
+              <label for="raison">Notice dépense:</label>
+              <textarea name="raison" id="raison" cols="15" rows="2"></textarea><br/>
+              <label for="montant">Montant:</label><input type="text" id="montant" name="montant"><br/>
+              <input type="submit" value="soumettre">
+            </form>
+
+        </div>
+       {% endif %}
+       {% if error %}
+        <p style="color:red">{{error}}</p>
+      {% endif %}
+    </section>
+    <style>
+    section{
+        width:50%;
+        margin-left:auto;
+        margin-right:auto;
+
+        margin-top:50px;
+    }
+    .para2{
+    text-align:center;
+    text-decoration:underline;
+    }
+    form{
+
+    }
+    input[type='submit']{
+        width:25%;
+        margin-left:auto;
+        margin-right:auto;
+        background-color:grey;
+        color:white;
+        border-radius:5px;
+        padding:5px;
+    }
+    @media screen and (max-width: 600px){
+          input[type='submit']{
+            width:90%;
+            margin-left:auto;
+            margin-right:auto;
+            background-color:#613584;
+            color:white;
+            border-radius:5px;
+            margin-bottom:25px;
+    }
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+      <p>Page d'inscription </p>
+    {% if user %}
+      <p>{{user}}</p>
+    {% elif not user %}
+        <form method="POST" action="{% url 'usercreation' %}" >
+            {% csrf_token%}
+            {{form.as_p}}
+            <input type="submit" value="connexion">
+        </form>
+    {% endif %}
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
+</body>
+</html>

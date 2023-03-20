@@ -1,0 +1,96 @@
+{% extends 'leyssare/leyadmin/adminbase.html' %}
+
+{% load static%}
+
+{% block title %}<title>UserCotisation </title>{% endblock%}
+{% block content %}
+    <section>
+        <h5 class="para5">Ajout d'un membre qui a cotisé pour la caisse.</h5>
+      {% if data %}
+        <p style="color:green">{{data}}</p>
+        <a href="{% url 'BleyApp:ontversees' %}">cliquer ici pour retourner à la page 'Membres' </a>
+      {% elif not data %}
+        <div class="principal">
+            <p style="color:red">{{erreur}}</p>
+            <form action="{% url 'BleyApp:userversement' %}" method="post">
+                {% csrf_token %}
+                  <div class="form-group">
+                    <label for="formGroupExampleInput">Nom</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput" name="nom" placeholder="Votre nom" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="formGroupExampleInput2">Prenom</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput2" name="prenom" placeholder="Votre prenom" required>
+                  </div>
+                   <div class="form-group">
+                    <label for="inputState">Selectionné votre Pays</label>
+                      <select id="inputState" name="pays" class="form-control">
+                          <option selected>Guinée</option>
+                          <option>Sénégal</option>
+                          <option>Côte d'Ivoire</option>
+                          <option>Gambie</option>
+                          <option>Togo</option>
+                          <option>Bénin</option>
+                          <option>Angola</option>
+                          <option>Mali</option>
+                          <option>USA</option>
+                          <option>Allemagne</option>
+                          <option>Italie</option>
+                      </select>
+                  </div>
+                     <div class="form-group">
+                        <label for="formGroupExampleInput3">Montant FG {% if error1 %}<span style="color:red; display:inline;">{{error1}}</span>{% endif %}</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput3" name="montant_fgn" placeholder="Montant FGN" >
+                  </div>
+                 <div class="form-group">
+                        <label for="formGroupExampleInput4">Montant CFA {% if error2 %}<span style="color:red; display:inline;">{{error2}}</span>{% endif %}</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput4" name="montant_cfa" placeholder="Montant FCFA" >
+                  </div>
+              <input type="submit" value="soumettre">
+            </form>
+
+        </div>
+      {% endif %}
+
+      {% if error %}
+        <p style="color:red">{{error}}</p>
+      {% endif %}
+    </section>
+    <style>
+    section{
+        width:50%;
+        margin-left:auto;
+        margin-right:auto;
+
+        margin-top:50px;
+    }
+    .para5{
+    text-align:center;
+    text-decoration:underline;
+    }
+    form{
+
+    }
+    input[type='submit']{
+        width:25%;
+        margin-left:auto;
+        margin-right:auto;
+        background-color:grey;
+        color:white;
+        border-radius:5px;
+        padding:5px;
+    }
+    @media screen and (max-width: 600px){
+          input[type='submit']{
+            width:90%;
+            margin-left:auto;
+            margin-right:auto;
+            background-color:#613584;
+            color:white;
+            border-radius:5px;
+            margin-bottom:25px;
+    }
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+
+body{
+    padding:0px;
+    margin:0px;
+}
+.para1{
+    padding:25px;
+    text-align:center;
+    background-color:#16292f;
+    color:white;
+    font-family: Sans-serif monospace;
+    font-size:1.5em;
+
+}
+.container{
+    background-color:#f7f6f5;
+    border:2px solid orange;
+    padding:50px;
+    left:15%;
+    width:50%;
+}
+.formulaire{
+    position:relative;
+    left:25%;
+}
+.mb-3
+{
+    padding:5px;
+    margin-top:10px;
+}
+#btn-primary{
+    margin-top:10px;
+    padding:5px;
+    background-color:#1a5fb5;
+    position:relative;
+    width:15%;
+    border-radius:12px;
+    left:15%;
+}
+ @media only screen and (max-width: 640px) {
+     * {
+  box-sizing: border-box;
+}
+    body{
+        border:2px solid, green;
+    }
+    body:before {
+		content: "Version mobile du site";
+		display: block;
+		text-align: center;
+		font-style: italic;
+		color: #777;
+	}
+    .para1{
+        display:block;
+        width:100%;}
+    .container{
+        display:block;
+        width:100%;
+        border:none;
+        background-color:#c11c28;
+        color:white;
+    }
+    .formulaire{
+        position: sticky;
+    }
+    #btn-primary{
+        width:50%;
+        left:15%;
+        background-color:#a61d2d;
+        color:white;
+        font-weight:bold;
+
+    }
+    .mb-3{
+
+    }
+    #password, #username{
+        border:2px solid #77767b;
+        border-radius:5px;
+        padding:5px;
+    }
+}

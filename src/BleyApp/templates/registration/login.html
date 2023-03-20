@@ -1,0 +1,52 @@
+{% extends 'leyssare/leyadmin/adminbase.html' %}
+
+{% load static%}
+
+{% block title %}<title>Login Page </title>{% endblock%}
+{% block content %}
+    <section>
+        <p>Page de connexion</p>
+        <p style="color:red;">{{message}}</p>
+           <form action="{% url 'BleyApp:AdminAuth' %}" method="post">
+                {% csrf_token%}
+                {{form.as_p}}
+                <input type="submit" value="connexion">
+                <p style="color:red;">{{error}}</p>
+            </form>
+
+        {% if error %}
+            <form action="{% url 'BleyApp:AdminAuth' %}" method="post">
+                {% csrf_token%}
+                {{form.as_p}}
+                <input type="submit" value="connexion">
+                <p style="color:red;">{{error}}</p>
+            </form>
+        {% endif %}
+        <p>{{login}}</p>
+
+   </section>
+<style>
+    section{
+    margin-left:auto;
+    margin-right:auto;
+    width:65%;
+    margin-top:50px;
+    }
+    form{
+        margin-left:auto;
+        margin-right:auto;
+        width:90%;
+    }
+    p{
+        text-align:center;
+    }
+    input[type=submit]{
+        margin-left:45%;
+        width:25%;
+        background-color:#3d3846;
+        color:white;
+        border-radius:8px;
+
+    }
+</style>
+{% endblock%}

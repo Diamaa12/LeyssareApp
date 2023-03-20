@@ -1,0 +1,151 @@
+body{
+    margin:0px;
+    padding:0px;
+    font-family: 'Montserrat', sans-serif;
+}
+.para1{
+    margin-top:0px;
+    padding:15px;
+    font-size:1.4em;
+    color:white;
+    text-align:center;
+    background-color: rgba(5,0, 10, 0.8);
+    font-family:Sans serif cursive;
+}
+.container{
+    display:float;
+    width:100%;
+}
+.form{
+    width:40%;
+    margin-top:15px;
+}
+.user, .form{
+     display: inline-block;
+     vertical-align: top;
+     background-color:#f7f6f5;
+}
+.mb-3{
+    border:2px solid orange;
+}
+.form-label{
+    border:1px solid black;
+}
+
+#days, #days-lab{
+    position:relative;
+    left:38px;
+}
+input[type=text]:focus {
+  border: 3px solid #555;
+}
+
+.user{
+    margin:14px;
+    width:50%;
+    left:5%;
+    padding:10px;
+    font-size:1em;
+    color:rgba(5,0, 10, 0.8);
+    text-align:left;
+}
+img{
+    width:150px;
+    height:150px;
+    border:5px solid #1c71d9;
+    border-radius:150px;
+}
+.perso{
+    padding:5px;
+    margin-top:5px;
+}
+.logo{
+    text-align:center;
+    margin-top:5px;
+    padding:10px;
+}
+.formulaire{
+    margin:20px;
+}
+.para2{
+    text-align:center;
+    color:#1c71d9;
+    font-size:1.3em
+}
+#btn-primary{
+    position:relative;
+    left:40%;
+}
+.sp1{
+    color:#1c71d9;
+    text-decoration:underline;
+    margin-bottom:5px;
+}
+.pow{
+    text-align:center;
+    color:#f7f6f5;
+    padding:5px;
+}
+#username, #password{
+    background-color:#dfdedb;
+}
+.del{
+    border:1px solid red;
+}
+
+.test1,.test2,.test3, .test4{
+    width:100%;
+}
+.btn{
+    width:50%;
+    margin-top:25px;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+#day,#notes,#date{
+    margin-left: auto;
+    margin-right: auto;
+    width: 98%;
+}
+@media only screen and (max-width : 640px){
+    * {
+		box-sizing: border-box;
+	}
+	img{
+	    border:5px solid #f7f6f5;
+	}
+    .container{
+        display:block;
+        width:100%;
+        background-color:#a61d2d;
+    }
+    .form, .user{
+        width:100%;
+    }
+    .user{
+        margin-left:0px;
+    }
+    .perso{
+        color:white;
+        font-weight: bold;
+    }
+    #btn-primarys{
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+    }
+    body:before {
+		content: "Version mobile du site";
+		display: block;
+		text-align: center;
+		font-style: italic;
+		color: #777;
+	}
+}
+@media (max-device-width:768px) and (orientation: landscape) {
+  html {
+   -webkit-text-size-adjust: 100%;
+   -ms-text-size-adjust: 100%;
+  }
+}

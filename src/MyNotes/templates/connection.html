@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection</title>
+    <link rel="stylesheet" href="{% static 'css/connexion.css'%}">
+</head>
+<body>
+    <p class="para1">Welcome to your login Page.</p>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message">{{message}}</p>
+            {% endfor %}
+        {% elif ticks %}
+            <p class="deconnect">{{ticks}}</p>
+        {% else %}
+            <p class="log">Welcome to your Login page</p>
+        {% endif %}
+      <form method="POST" action="{% url 'Mynotes:login-user' %}" class="formulaire">
+          {% csrf_token %}
+         <div class="mb-3">
+            <label for="username" class="username-label">Username: </label>
+            <input type="text" name="username" id="username" ><br>
+         </div>
+         <div class="mb-3">
+           <label for="password" id="password-lab" class="form-label">Password: </label>
+           <input type="password" id="password" name="password"><br>
+           <button type="submit" class="btn btn-primary" id="btn-primary" value="submit">Sign in </button>
+         </div>
+      </form>
+        <p class="error" style="color:orange;">{{error}}</p>
+    </div>
+</body>
+</html>

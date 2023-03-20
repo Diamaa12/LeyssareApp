@@ -1,0 +1,30 @@
+header {
+	background-color: #333;
+	color: #fff;
+	padding: 10px;
+}
+.nav {
+
+}
+nav>ul {
+	list-style: none;
+}
+
+nav >ul>li {
+	display: inline-block;
+	width:16em;
+	margin-left: auto;
+    margin-right: auto;
+
+}
+
+nav a {
+	color: #fff;
+	text-decoration: none;
+}
+
+main {
+	margin: 20px;
+	font-size: 18px;
+	line-height: 1.5;
+}

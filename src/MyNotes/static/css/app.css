@@ -1,0 +1,29 @@
+h3{
+    padding:15px;
+    margin-top:15px;
+    text-align:center;
+    background-color:#1a5fb5;
+    color:white;
+    font-family: Sans-serif monospace;
+    font-size:1.2em,
+}
+.para1{
+    color:red;
+}
+.form{
+    background-color:#f7f6f5;
+    border:2px solid orange;
+    padding:14px;
+    position:relative;
+    left:15%;
+    width:60%;
+}
+.formulaire{
+    position:relative;
+    left:25%;
+}
+.mb-3
+{
+    padding:5px;
+    margin-top:10px;
+}

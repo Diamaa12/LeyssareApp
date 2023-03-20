@@ -1,0 +1,84 @@
+{% extends 'leyssare/leyadmin/adminbase.html' %}
+
+{% load static%}
+
+{% block title %}<title>UserCreation </title>{% endblock%}
+{% block content %}
+    <section>
+        <h5 class="para2">Création d'un nouveau membre ici</h5>
+      {% if data %}
+        <p style="color:green">{{data}}</p>
+      <a href="{% url 'BleyApp:membres' %}">cliquer ici pour retourner à la page 'Membres' </a>
+      {% elif not data %}
+        <div class="principal">
+            <form action="{% url 'BleyApp:usercreation' %}" method="post">
+                {% csrf_token %}
+                  <div class="form-group">
+                    <label for="formGroupExampleInput">Nom:</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput" name="nom" placeholder="Votre nom" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="formGroupExampleInput2">Prenom:</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput2" name="prenom" placeholder="Votre prenom" required>
+                  </div>
+                   <div class="form-group">
+                    <label for="inputState">Selectionner votre Pays</label>
+                      <select id="inputState" name="pays" class="form-control">
+                          <option selected>Guinée</option>
+                          <option>Sénégal</option>
+                          <option>Côte d'Ivoire</option>
+                          <option>Gambie</option>
+                          <option>Togo</option>
+                          <option>Bénin</option>
+                          <option>Angola</option>
+                          <option>Mali</option>
+                          <option>USA</option>
+                          <option>Allemagne</option>
+                          <option>Italie</option>
+                      </select>
+                  </div>
+              <input type="submit" value="soumettre">
+            </form>
+
+        </div>
+      {% elif error %}
+        <p style="color:red">{{error}}</p>
+      {% endif %}
+    </section>
+<style>
+    section{
+        width:50%;
+        margin-left:auto;
+        margin-right:auto;
+
+        margin-top:50px;
+    }
+    .para2{
+    text-align:center;
+    text-decoration:underline;
+    }
+    form{
+
+    }
+    input[type='submit']{
+        width:25%;
+        margin-left:auto;
+        margin-right:auto;
+        background-color:grey;
+        color:white;
+        border-radius:5px;
+        padding:5px;
+    }
+    @media screen and (max-width: 600px){
+          input[type='submit']{
+            width:90%;
+            margin-left:auto;
+            margin-right:auto;
+            background-color:#613584;
+            color:white;
+            border-radius:5px;
+            margin-bottom:25px;
+    }
+    }
+</style>
+{% endblock %}

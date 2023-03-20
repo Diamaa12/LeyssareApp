@@ -1,0 +1,57 @@
+{% extends 'leyssare/base.html' %}
+
+{% load static%}
+
+{% block title %}<title>Ont versees </title>{% endblock%}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/nicepage.css'%}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/deja_versee.css'%}" media="screen">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <section class="section">
+        <div class="container">
+            <p class="para1">La liste des membres qui ont versés leur participation pour 2023</p>
+            <p style="background-color:#54DC69; text-align:center; color:white">Salam {{user}}</p>
+        </div>
+        <div class="table-responsive">
+                  <table class="table table-striped table-dark">
+
+              <thead>
+                <tr>
+                  <th scope="col">No </th>
+                  <th scope="col">Nom</th>
+                  <th scope="col">Prenom</th>
+                  <th scope="col">Pays</th>
+                  <th scope="col">En CFA</th>
+                  <th scope="col">En FGN</th>
+                  <th scope="col">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                    {% if data %}
+                        {% for data in data %}
+                        <tr class="align-bottom">
+                          <th scope="row">{{data.id}}</th>
+                          <td class="">{{data.nom}}</td>
+                          <td class="">{{data.prenom}}
+                          <td class="">{{data.pays}}</td>
+                          {% if data.montant_cfa != None %}
+                          <td class="">{{data.montant_cfa}}</td>
+                           {% else %}
+                          <td class=""></td>
+                          {% endif %}
+                          {% if data.montant_fg != None %}
+                          <td class="">{{data.montant_fg}}</td>
+                           {% else %}
+                          <td class=""></td>
+                          {% endif %}
+                          <td>{{data.date}}</td>
+
+                        </tr>
+                        {% endfor %}
+                   {% endif %}
+              </tbody>
+    </table>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,68 @@
+ /* Set height to 100% for body and html to enable the background image to cover the whole page: */
+body, html {
+  height: 100%
+}
+.para1{
+    background-color:rgba(0, 0, 0, 0.7);
+    text-align:center;
+    padding:25px;
+    margin-top:0px;
+    color:#e11b24;
+    font-size:1.4em;
+    font-weight:bold;
+}
+.bgimg {
+  /* Background image */
+  background-image: url('pngegg.png ');
+  /* Full-screen */
+  height: 100%;
+  /* Center the background image */
+  background-position: center;
+  /* Scale and zoom in the image */
+  background-size: cover;
+  /* Add position: relative to enable absolutely positioned elements inside the image (place text) */
+  position: relative;
+  /* Add a white text color to all elements inside the .bgimg container */
+  color: white;
+  /* Add a font */
+  font-family: "Courier New", Courier, monospace;
+  /* Set the font-size to 25 pixels */
+  font-size: 25px;
+}
+
+/* Position text in the top-left corner */
+.topleft {
+  position: absolute;
+  top: 0;
+  left: 16px;
+}
+
+/* Position text in the bottom-left corner */
+.bottomleft {
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+}
+
+/* Position text in the middle */
+.middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Style the <hr> element */
+hr {
+  margin: auto;
+  width: 40%;
+}
+.date{
+
+    font-family:Cursive 'Lucida Handwriting';
+    font-weight:bold;
+    font-size:1.5em;
+    color:#823d9d;
+
+}

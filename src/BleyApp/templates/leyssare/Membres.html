@@ -1,0 +1,18 @@
+{% extends 'leyssare/base.html' %}
+
+{% load static%}
+{% load tags_personnalise %}
+{% block title %}<title>Membres</title>{% endblock%}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/nicepage.css'%}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/Membres.css'%}" media="screen">
+    <section class="u-align-center u-clearfix u-image u-shading u-section-1" src="" data-image-width="1280" data-image-height="874" id="sec-3e74">
+      <div class="u-align-center u-clearfix u-sheet u-sheet-1">
+        <h2 class="u-text u-text-default u-text-1">Membres de l'association Leyssaré</h2>
+          <p class="u-text u-text-2">Pour voir la liste des membres de notre association veuillez clicker le button en-bas</p>
+          <a href="{% url 'BleyApp:authentication' urls=request.path urls_param='page_membres'%}" class="u-btn u-btn-round u-button-style u-palette-1-base u-radius-13 u-btn-1">See membres</a>
+      </div>
+
+    </section>
+    
+{% endblock %}
