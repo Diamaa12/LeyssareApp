@@ -17,7 +17,7 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-environ.Env.read_env(env_file=str(BASE_DIR / "Leyssare" / ".filenv"))
+environ.Env.read_env(env_file=str(BASE_DIR / ".filenv"))
 
 
 # Quick-start development settings - unsuitable for production
