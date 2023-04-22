@@ -10,7 +10,7 @@
   <section class="section">
         <div class="container">
             <p class="para1">La liste des membres qui ont versés leur participation pour 2023</p>
-            <p style="background-color:#54DC69; text-align:center; color:white">Salam {{user}}</p>
+            <p style="background-color:#823d9d;font-weight: bold; width:50%;text-align:center; color:white">Salam {{user}}</p>
         </div>
         <div class="table-responsive">
                   <table class="table table-striped table-dark">
@@ -31,6 +31,7 @@
                     {% if data %}
                         {% for data in data %}
                         <tr class="align-bottom">
+
                           <th scope="row">{{data.id}}</th>
                           <td class="">{{data.nom}}</td>
                           <td class="">{{data.prenom}}

@@ -4,7 +4,6 @@ section{
     margin-left: auto;
     margin-right: auto;
     width:40%;
-    border:1px solid #3585e5;
     padding:15px;
     margin-bottom:40px;
 }
@@ -51,9 +50,8 @@ input{
 @media screen and (max-width: 992px) {
   .auth_form{
         width:80%;
-        border:1px solid #3585e5;
-        padding:15px;
         margin-bottom:40px;
+        padding:15px;
 }
 }
 

@@ -19,6 +19,8 @@ from django.urls import path, include
 urlpatterns = [
     path('account/', include('django.contrib.auth.urls')),
     path('leyssare-admin/', admin.site.urls),
+    #inclure l'app my Notes
     path('Mynotes/', include('MyNotes.urls', namespace='Mynotes')),
-    path('BleyApp/', include('BleyApp.urls',namespace='BleyApp')),
+    #inclure l'app BleyApp
+    path('', include('BleyApp.urls',namespace='BleyApp')),
 ]

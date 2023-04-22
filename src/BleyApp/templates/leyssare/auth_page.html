@@ -20,15 +20,22 @@
       {% if not error %}
         <form method="POST" action="{% url 'BleyApp:authentication' urls=request.path urls_param='auth_page'%}" class="auth_form">
                 {% csrf_token%}
-                {{form.as_p}}
+                 <div class="form-group">
+                        <label for="formGroupExampleInput">YOUR PERSONNAL CODE:</label>
+                        <input type="text" class="form-control" name="id_number" id="formGroupExampleInput" placeholder="input your code">
+                    </div>
             <input class="submit" type="submit" value="Valider">
         </form>
       {% elif error %}
         <p class="error">Le code: <span style="color:orange; text-decoration: underline  #FF3028;">{{error}}</span> n'est pas correct, veillez réessayer. </p>
           <form method="POST" action="{% url 'BleyApp:authentication' urls=request.path urls_param='auth_page'%}" class="auth_form">
                 {% csrf_token%}
-                {{form.as_p}}
+                     <div class="form-group">
+                        <label for="formGroupExampleInput">YOUR PERSONNAL CODE:</label>
+                        <input type="text" class="form-control" name="id_number" id="formGroupExampleInput" placeholder="input your code">
+                    </div>
             <input class="submit" type="submit" value="submit">
+
         </form>
       {% endif %}
 

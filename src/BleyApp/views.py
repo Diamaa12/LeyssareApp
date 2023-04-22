@@ -1,3 +1,6 @@
+import datetime
+import json
+import pathlib
 import random
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
@@ -46,9 +49,19 @@ def liste_membres(request):
 
 def membres_ont_versees(request):
     if request.method == 'GET':
-        ont_versees = VersementLeyssare.objects.all() # à revoir le filtre ici
-        print(ont_versees)
 
+        #Recupération des membres qui ont cotisé à partir de la base de données
+        ont_versees = VersementLeyssare.objects.all()
+        #print(ont_versees)
+
+        #Recuperation des des membres dans le fichier JSON
+        periode_de_cotisation = pathlib.Path().parent.parent / 'cotisation.json'
+        print('je suis ici ', periode_de_cotisation)
+        with open(periode_de_cotisation, 'r') as f:
+            data_json = json.load(f)
+        print(data_json)
+        last_keys = list(data_json.keys())[-1]
+        print(f'Voici la dernière clé {last_keys}')
         context = {'data': ont_versees}
         return render(request, 'leyssare/membre_qui_ont_versees.html', context)
 
@@ -157,8 +170,18 @@ def auth_user(request, urls, urls_param):
             elif urls.endswith('membres_ont_versees') or urls.count('/membres_ont_versees/auth_page') >= 1:
                 ont_versees = VersementLeyssare.objects.all()  # à revoir le filtre ici
                 print(ont_versees)
+
+                # Recuperation de membres dans le fichier JSON
+                periode_de_cotisation = pathlib.Path().parent.parent / 'cotisation.json'
+                with open(periode_de_cotisation, 'r') as f:
+                    data_json = json.load(f)
+                print(data_json)
+                last_keys = list(data_json.keys())[-1]
+                print(f'Voici la dernière clé {last_keys}')
+
                 context = {'data': ont_versees,
-                           'user':user}
+                           'user':user,
+                           'periode':last_keys}
                 return render(request, 'leyssare/membre_qui_ont_versees.html', context)
             elif urls.endswith('depensee') or (urls.count('/depensee/auth_page') >= 1):
                 obj = LeyssareCaisse.objects.all()
@@ -210,7 +233,14 @@ def auth_user(request, urls, urls_param):
 
 def create_account(request):
 
-    if request.method == 'POST':
+    if request.method == 'GET':
+        print('Acceuil du page.')
+        form = MyForm()
+        context = {'form': form}
+        return render(request, 'leyssare/leyadmin/create_admin.html', context)
+
+    elif request.method == 'POST':
+
         username = request.POST.get('username')
         mail = request.POST.get('email')
         password1 = request.POST.get('password1')
@@ -267,7 +297,7 @@ def admin_deconnexion(request):
     context = {'error':'You are deautheticated now. ',
                'form': form,}
     return render(request,'registration/login.html', context)
-#gestion de formulaire d'inscription
+#gestion de formulaire d'inscription des Membres Bolondha-Leyssare
 @login_required(login_url='../../../BleyApp/login/')
 def membres_registrer(request):
         if request.method == 'POST':
@@ -279,8 +309,33 @@ def membres_registrer(request):
             fake = Faker(locale='fr')
             PERSONNAL_ID = fake.ean8(prefixes=('00',))
 
+            #Sauvegarder les Membres dans la Base de données
             usr = LeyssareMembres(nom=nom, prenom=prenom, pays=pays, id_number=PERSONNAL_ID)
             usr.save()
+
+            #Sauvegarder les memebres en JSON
+            membres = 'leyssaremembres.json'
+
+            user = {'nom':nom,
+                    'prenom':prenom,
+                    'pays':pays,
+                    'id_number':PERSONNAL_ID}
+
+            # Open the file for writing
+            with open(membres, 'r') as f:
+                mbr = json.load(f)
+            mbr.append(user)
+
+            with open(membres, 'w') as f:
+                # Write the data to the file as JSON
+                json.dump(mbr, f, indent=4, ensure_ascii=False)
+            with open(membres, "r") as f:
+                # Load the data from the file as JSON
+                data = json.load(f)
+
+            # Print the data
+            print(data)
+
             print(nom, prenom, pays, PERSONNAL_ID)
             context = {'data':'Utilisateur enregistré avec succés. '}
             return render(request, 'leyssare/leyadmin/user_creation.html', context)
@@ -300,6 +355,16 @@ def user_versement(request):
             montant_fg = request.POST.get('montant_fgn')
 
             #Ici, on vérifie si la nature de somme cotisé est FCFA
+            cotisation_json = 'cotisation.json'
+
+            d = datetime.datetime.now()
+            d = d.strftime('%Y')
+            data_to_save = {}
+            user_data = [nom, prenom, pays]
+
+            with open(cotisation_json, 'r') as f:
+                data_file = json.load(f)
+
             if montant_fg == '':
                 montant_fg = None
                 if montant_cfa.isdigit():
@@ -309,6 +374,21 @@ def user_versement(request):
                         #On ajoute cette somme à notre caisse LeyssareCaisse
                         data_recup.montant_cfa_dispo += montant_cfa
                         data_recup.save()
+
+                        #Ajout de données dans le JSON-Files
+                        montant_cfa = str(montant_cfa)
+                        user_data.append(montant_cfa)
+                        ids = [ele for ele in data_file]
+                        identifiant_user = len(ids)+1
+                        print(identifiant_user)
+                        data_file[f'{identifiant_user}: Cotisation {d}']=user_data
+
+                        last_keys = list(data_file.keys())[-1]
+                        print(f'Voici la dernière clé {last_keys}')
+                        for d in data_file:
+                            print(d)
+                        with open(cotisation_json, 'w') as f:
+                            json.dump(data_file, f, indent=4, ensure_ascii=False)
                         print(data_recup.montant_cfa_dispo)
                 else:
                     context = {'error2': 'Ce Champs doit être de type monnaie FCFA.'}
@@ -325,6 +405,28 @@ def user_versement(request):
                         data_recup.montant_fg_dispo += montant_fg
                         data_recup.save()
                         print(data_recup.montant_fg_dispo)
+
+                        # Ajout de données dans le JSON-Files
+
+                        '''On transforme le montant en string'''
+                        montant_fg = str(montant_fg)
+                        '''On ajoute le montant à la liste de l'utilisateur '''
+                        user_data.append(montant_fg)
+                        '''On compte les entrés de la liste et on ajoute 1 á la prochaine entrée'''
+                        ids = [ele for ele in data_file]
+                        identifiant_user = len(ids) + 1
+                        print(identifiant_user)
+                        '''On ajoute la liste dans le dictionnaire avec son id '''
+                        data_file[f'{identifiant_user}: Cotisation {d}'] = user_data
+
+                        '''On recupère seulement le derniére clé de notre dictionnaire'''
+                        last_keys = list(data_file.keys())[-1]
+                        print(f'Voici la dernière clé {last_keys}')
+                        for d in data_file:
+                            print(d)
+                        with open(cotisation_json, 'w') as f:
+                            json.dump(data_file, f, indent=4, ensure_ascii=False)
+                        print(data_recup.montant_cfa_dispo)
                 else:
                     context = {'error1': 'Ce Champs doit être de type monnaie FGN.'}
                     return render(request, 'leyssare/leyadmin/user_cotisation.html', context)
@@ -337,6 +439,9 @@ def user_versement(request):
             #On ajoute ici la personne que vient de cotisé à la liste des personnes qui ont cotisé
             usr = VersementLeyssare(nom=nom, prenom=prenom, pays=pays, montant_cfa=montant_cfa, montant_fg=montant_fg)
             usr.save()
+
+            #Gestionnaire de cotisation en fichier JSON
+
             print(nom, prenom, pays)
             context = {'data': 'Utilisateur enregistré avec succés. '}
             return render(request, 'leyssare/leyadmin/user_cotisation.html', context)
