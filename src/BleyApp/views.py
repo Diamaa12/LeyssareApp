@@ -176,6 +176,7 @@ def auth_user(request, urls, urls_param):
                 with open(periode_de_cotisation, 'r') as f:
                     data_json = json.load(f)
                 print(data_json)
+                '''Ici on recupere la dernière clé pour notre dictionnaire'''
                 last_keys = list(data_json.keys())[-1]
                 print(f'Voici la dernière clé {last_keys}')
 
