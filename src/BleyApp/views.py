@@ -315,8 +315,8 @@ def membres_registrer(request):
             usr.save()
 
             #Sauvegarder les memebres en JSON
-            membres = 'leyssaremembres.json'
-
+            BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+            membres = BASE_DIR / 'BleyApp/static/JSONS/leyssaremembres.json'
             user = {'nom':nom,
                     'prenom':prenom,
                     'pays':pays,
@@ -356,7 +356,8 @@ def user_versement(request):
             montant_fg = request.POST.get('montant_fgn')
 
             #Ici, on vérifie si la nature de somme cotisé est FCFA
-            cotisation_json = 'cotisation.json'
+            BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+            cotisation_json = BASE_DIR / 'BleyApp/static/JSONS/cotisation.json'
 
             d = datetime.datetime.now()
             d = d.strftime('%Y')
@@ -437,7 +438,7 @@ def user_versement(request):
                 context = {'error':'Les champs CFA et FGN ne peuvent pas être à la fois remplie.'}
                 return render(request, 'leyssare/leyadmin/user_cotisation.html', context)
 
-            #On ajoute ici la personne que vient de cotisé à la liste des personnes qui ont cotisé
+            #On ajoute ici la personne que vient de cotiser à la liste des personnes qui ont cotisé
             usr = VersementLeyssare(nom=nom, prenom=prenom, pays=pays, montant_cfa=montant_cfa, montant_fg=montant_fg)
             usr.save()
 
@@ -445,6 +446,22 @@ def user_versement(request):
 
             print(nom, prenom, pays)
             context = {'data': 'Utilisateur enregistré avec succés. '}
+            return render(request, 'leyssare/leyadmin/user_cotisation.html', context)
+        elif request.method == 'GET':
+            # Recuperation de prenom de l'utilsateur dans le fichier JSON
+            #à partir du fichier lmembres.js
+            BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+            json_fil = BASE_DIR / 'BleyApp/static/JSONS/leyssaremembres.json'
+
+            with open(json_fil, 'r') as f:
+                read_file = json.load(f)
+            u_name = []
+
+            for pname in read_file:
+                u_name.append(pname['prenom'])
+
+            context = {'prenom':u_name}
+
             return render(request, 'leyssare/leyadmin/user_cotisation.html', context)
         else:
             return render(request, 'leyssare/leyadmin/user_cotisation.html')

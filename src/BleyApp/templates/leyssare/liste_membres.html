@@ -17,6 +17,7 @@
               <thead>
                 <tr>
                   <th scope="col">No </th>
+                  <th scope="">Id_number</th>
                   <th scope="col">Nom</th>
                   <th scope="col">Prenom</th>
                   <th scope="col">Pays</th>
@@ -28,6 +29,7 @@
                         {% for data in data %}
                         <tr>
                           <th scope="row">{{data.id}}</th>
+                          <th scope="">{{data.id_number}}</th>
                           <td class="">{{data.nom}}</td>
                           <td class="">{{data.prenom}}</td>
                           <td class="">{{data.pays}}</td>

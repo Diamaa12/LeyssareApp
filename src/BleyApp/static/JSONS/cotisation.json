@@ -46,5 +46,41 @@
         "Aissatou",
         "Togo",
         "4500"
+    ],
+    "9: Cotisation 2023": [
+        "Diallo",
+        "Daye",
+        "Italie",
+        "100000"
+    ],
+    "10: Cotisation 2023": [
+        "Diallo",
+        "Daye",
+        "Mali",
+        "5000"
+    ],
+    "11: Cotisation 2023": [
+        "Diallo",
+        "Ishagha",
+        "Angola",
+        "12500"
+    ],
+    "12: Cotisation 2023": [
+        "Diallo",
+        "Tahirou",
+        "Gambie",
+        "7500"
+    ],
+    "13: Cotisation 2023": [
+        "Diallo",
+        "Idrissa",
+        "Côte d'Ivoire",
+        "8000"
+    ],
+    "14: Cotisation 2023": [
+        "Diallo",
+        "Moumini",
+        "Guinée",
+        "100000"
     ]
 }
