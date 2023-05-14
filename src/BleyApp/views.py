@@ -44,6 +44,9 @@ def propos(request):
 def liste_membres(request):
     if request.method == 'GET':
         membres = LeyssareMembres.objects.all()
+
+        for data in membres:
+            print(data.nom, data.pays)
         context = {'data':membres}
         return render(request, 'leyssare/liste_membres.html', context)
 
@@ -163,6 +166,7 @@ def auth_user(request, urls, urls_param):
             if urls.endswith('page_membres') or (urls.count('/page_membres/auth_page') >= 1):
                 print(urls.count('/page_membres/auth_page') >= 1)
                 membres = LeyssareMembres.objects.all()
+
                 context = {'data': membres,
                            'user':user}
 
@@ -172,7 +176,9 @@ def auth_user(request, urls, urls_param):
                 print(ont_versees)
 
                 # Recuperation de membres dans le fichier JSON
-                periode_de_cotisation = pathlib.Path().parent.parent / 'cotisation.json'
+                BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+                periode_de_cotisation = BASE_DIR / 'BleyApp/static/JSONS/cotisation.json'
+
                 with open(periode_de_cotisation, 'r') as f:
                     data_json = json.load(f)
                 print(data_json)

@@ -10,7 +10,7 @@ h.innerHTML = 'Welcome to Your Admin Site.'
 // Récupération des données JSON
 
 const element = document.getElementsByClassName('selected_user');
-const options = document.getElementById('valeur');
+let options = document.getElementById('valeur');
 
 fetch('http://127.0.0.1:8000/static/JSONS/leyssaremembres.json')
     .then(response => response.json())
@@ -18,22 +18,19 @@ fetch('http://127.0.0.1:8000/static/JSONS/leyssaremembres.json')
         // Utilisez le contenu du fichier JSON ici
 
         for(let i = 0; i<element.length; i++){
-            element[i].addEventListener('click', bindFonction);
-            function bindFonction(e){
+            element[i].addEventListener('click', function(){
                 for(let d in data){
                      let prenom = data[d].prenom;
                      let pays = data[d].pays;
-
-                     console.log(prenom, pays);
-
                      if(element[i].innerHTML == prenom){
                         let valeur = pays;
                         options.innerHTML = valeur;
-                        console.log(pays+' est le pays de '+prenom)
+                        console.log(prenom+' viens de '+pays);
                      }
-             }
-
             }
+        });
+            console.log('debut de chargement de function.');
+
         }
     })
     .catch(error => {

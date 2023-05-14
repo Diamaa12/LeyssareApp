@@ -37,12 +37,12 @@
                           <td class="">{{data.prenom}}
                           <td class="">{{data.pays}}</td>
                           {% if data.montant_cfa != None %}
-                          <td class="">{{data.montant_cfa}}</td>
+                          <td class="monnaie">{{data.montant_cfa}}</td>
                            {% else %}
                           <td class=""></td>
                           {% endif %}
                           {% if data.montant_fg != None %}
-                          <td class="">{{data.montant_fg}}</td>
+                          <td class="monnaie">{{data.montant_fg}}</td>
                            {% else %}
                           <td class=""></td>
                           {% endif %}
@@ -55,4 +55,5 @@
     </table>
     </div>
   </section>
+<script type="text/javascript"  src="{% static 'scripts/cotisation.js' %}" async></script>
 {% endblock %}
