@@ -58,7 +58,9 @@ def membres_ont_versees(request):
         #print(ont_versees)
 
         #Recuperation des des membres dans le fichier JSON
-        periode_de_cotisation = pathlib.Path().parent.parent / 'cotisation.json'
+        BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+        periode_de_cotisation = BASE_DIR / 'BleyApp/static/JSONS/cotisation.json'
+
         print('je suis ici ', periode_de_cotisation)
         with open(periode_de_cotisation, 'r') as f:
             data_json = json.load(f)
@@ -361,42 +363,28 @@ def user_versement(request):
             montant_cfa = request.POST.get('montant_cfa')
             montant_fg = request.POST.get('montant_fgn')
 
-            #Ici, on vérifie si la nature de somme cotisé est FCFA
+
             BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
             cotisation_json = BASE_DIR / 'BleyApp/static/JSONS/cotisation.json'
+            '''On declare ici un variable pour contenir le montant que l'/utilisateur a cotisé pour notre fichier 
+            cotisation.json '''
+            montant_versee_json = ''
 
             d = datetime.datetime.now()
             d = d.strftime('%Y')
             data_to_save = {}
             user_data = [nom, prenom, pays]
-
-            with open(cotisation_json, 'r') as f:
-                data_file = json.load(f)
-
+            # Ici, on vérifie si la nature de somme cotisé est FCFA
             if montant_fg == '':
                 montant_fg = None
                 if montant_cfa.isdigit():
+                    montant_versee_json = montant_cfa
                     montant_cfa = int(montant_cfa)
                     recup = LeyssareCaisse.objects.all()
                     for data_recup in recup:
                         #On ajoute cette somme à notre caisse LeyssareCaisse
                         data_recup.montant_cfa_dispo += montant_cfa
                         data_recup.save()
-
-                        #Ajout de données dans le JSON-Files
-                        montant_cfa = str(montant_cfa)
-                        user_data.append(montant_cfa)
-                        ids = [ele for ele in data_file]
-                        identifiant_user = len(ids)+1
-                        print(identifiant_user)
-                        data_file[f'{identifiant_user}: Cotisation {d}']=user_data
-
-                        last_keys = list(data_file.keys())[-1]
-                        print(f'Voici la dernière clé {last_keys}')
-                        for d in data_file:
-                            print(d)
-                        with open(cotisation_json, 'w') as f:
-                            json.dump(data_file, f, indent=4, ensure_ascii=False)
                         print(data_recup.montant_cfa_dispo)
                 else:
                     context = {'error2': 'Ce Champs doit être de type monnaie FCFA.'}
@@ -406,6 +394,7 @@ def user_versement(request):
             elif montant_cfa == '':
                 montant_cfa = None
                 if montant_fg.isdigit():
+                    montant_versee_json = montant_fg
                     montant_fg = int(montant_fg)
                     recup = LeyssareCaisse.objects.all()
                     for data_recup in recup:
@@ -414,27 +403,7 @@ def user_versement(request):
                         data_recup.save()
                         print(data_recup.montant_fg_dispo)
 
-                        # Ajout de données dans le JSON-Files
 
-                        '''On transforme le montant en string'''
-                        montant_fg = str(montant_fg)
-                        '''On ajoute le montant à la liste de l'utilisateur '''
-                        user_data.append(montant_fg)
-                        '''On compte les entrés de la liste et on ajoute 1 á la prochaine entrée'''
-                        ids = [ele for ele in data_file]
-                        identifiant_user = len(ids) + 1
-                        print(identifiant_user)
-                        '''On ajoute la liste dans le dictionnaire avec son id '''
-                        data_file[f'{identifiant_user}: Cotisation {d}'] = user_data
-
-                        '''On recupère seulement le derniére clé de notre dictionnaire'''
-                        last_keys = list(data_file.keys())[-1]
-                        print(f'Voici la dernière clé {last_keys}')
-                        for d in data_file:
-                            print(d)
-                        with open(cotisation_json, 'w') as f:
-                            json.dump(data_file, f, indent=4, ensure_ascii=False)
-                        print(data_recup.montant_cfa_dispo)
                 else:
                     context = {'error1': 'Ce Champs doit être de type monnaie FGN.'}
                     return render(request, 'leyssare/leyadmin/user_cotisation.html', context)
@@ -449,12 +418,30 @@ def user_versement(request):
             usr.save()
 
             #Gestionnaire de cotisation en fichier JSON
+            # Ajout de données dans le JSON-Files
+            with open(cotisation_json, 'r') as f:
+                data_file = json.load(f)
+            '''On ajoute le montant à la liste de l'utilisateur '''
+            user_data.append(montant_versee_json)
+            '''On compte les entrés de la liste et on ajoute 1 á la prochaine entrée'''
+            ids = [ele for ele in data_file]
+            identifiant_user = len(ids) + 1
+            print(identifiant_user, type(montant_versee_json))
+            '''On ajoute la liste dans le dictionnaire avec son id '''
+            data_file[f'{identifiant_user}: Cotisation {d}'] = user_data
+
+            '''On recupère seulement le derniére clé de notre dictionnaire'''
+            last_keys = list(data_file.keys())[-1]
+            print(f'Voici la dernière clé {last_keys}')
+
+            with open(cotisation_json, 'w') as f:
+                json.dump(data_file, f, indent=4, ensure_ascii=False)
 
             print(nom, prenom, pays)
             context = {'data': 'Utilisateur enregistré avec succés. '}
             return render(request, 'leyssare/leyadmin/user_cotisation.html', context)
         elif request.method == 'GET':
-            # Recuperation de prenom de l'utilsateur dans le fichier JSON
+            # Recuperation de prenom de l'utilsateur dans le fichier leyssaremembres.json
             #à partir du fichier lmembres.js
             BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
             json_fil = BASE_DIR / 'BleyApp/static/JSONS/leyssaremembres.json'
