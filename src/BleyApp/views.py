@@ -12,13 +12,16 @@ from .models import LeyssareMembres, VersementLeyssare, LeyssareCaisse, Leyssare
 from django.db.models import Q
 from .forms import FormUserMembres, Authentification, MyUserForm, MyForm
 from faker import Faker
+import itertools
+from django.template.loader import render_to_string
 # Create your views here.
 def base(request):
     return  render(request, 'leyssare/Accueil.html')
 def index(request):
     return render(request, 'leyssare/index.html')
 
-
+def mention_legal(request):
+    return render(request, 'leyssare/mentions_legal.html')
 def accueil(request):
     return render(request, 'leyssare/Accueil.html')
 
@@ -71,14 +74,14 @@ def membres_ont_versees(request):
         return render(request, 'leyssare/membre_qui_ont_versees.html', context)
 
 def depensee(request):
-    depence = LeyssareCaisse.objects.all()
-    context = {'data':depence}
+    depense = LeyssareCaisse.objects.all()
+    context = {'data':depense}
     return render(request, 'leyssare/depencee.html', context)
 
 def total_depense(request):
-    depence = LeyssareCaisse.objects.all()
+    depense = LeyssareCaisse.objects.all()
     total = 0
-    for items in depence:
+    for items in depense:
         total += items.montant_depencee
         print(total)
     context={'data':total}
@@ -131,6 +134,9 @@ def gestion_caisse(request):
                         f'Montant FG: {obj.montant_fg_dispo} '
                         f'</br> Montant depensée: {obj.montant_depencee} </h2>')
 def etat_de_caisse(request):
+    recup_versement_cfa = VersementLeyssare.objects.exclude(montant_cfa=None).latest('id').montant_cfa
+    recup_versement_fg = VersementLeyssare.objects.exclude(montant_fg=None).latest('id').montant_fg
+    print('Voici les données rechercher. ',recup_versement_cfa, recup_versement_fg)
     obj = LeyssareCaisse.objects.all()
     context={'data':obj}
     return render(request, 'leyssare/etat_caisse.html', context)
@@ -193,14 +199,30 @@ def auth_user(request, urls, urls_param):
                            'periode':last_keys}
                 return render(request, 'leyssare/membre_qui_ont_versees.html', context)
             elif urls.endswith('depensee') or (urls.count('/depensee/auth_page') >= 1):
+
                 obj = LeyssareCaisse.objects.all()
                 context = {'data': obj,
                            'user':user}
                 print(f'{urls}/{urls_param}')
                 return render(request, 'leyssare/etat_caisse.html', context)
             elif urls.endswith('depense_accumule') or (urls.count('/depense_accumule/auth_page')):
+                recup_versement_cfa = VersementLeyssare.objects.exclude(montant_cfa=None)
+                recup_versement_fg = VersementLeyssare.objects.exclude(montant_fg=None)
+                donnees = VersementLeyssare.objects.all()
                 obj = LeyssareCaisse.objects.all()
+                mnt_cfa = 0
+                mnt_fg = 0
+                mnt_dpse = 0
+                for data in obj:
+                    mnt_cfa = data.montant_cfa_dispo
+                    mnt_fg = data.montant_fg_dispo
+                    mnt_dpse = data.montant_depencee
+                    print(data.montant_cfa_dispo, data.montant_fg_dispo, data.montant_depencee)
                 context = {'data': obj,
+                           'cfa':mnt_cfa,
+                           'fg':mnt_fg,
+                           'mnt_d':mnt_dpse,
+                           'myList':donnees,
                            'user':user}
                 print(f'{urls}/{urls_param}')
                 return render(request, 'leyssare/depencee.html', context)
@@ -212,20 +234,25 @@ def auth_user(request, urls, urls_param):
 
                 # Ici, on récupère le dernier montant disponible
                 dernier_montant_dispo = LeyssareCaisse.objects.last().montant_fg_dispo
+                dernier_montant_cfa = LeyssareCaisse.objects.last().montant_cfa_dispo
 
                 total_restante = dernier_montant_dispo - total_somme_depensee
 
-                context = {'data': total_restante,
+                context = {'fgn': total_restante,
+                           'fcfa':dernier_montant_cfa,
                            'user':user}
                 return render(request, 'leyssare/capital_restante.html', context)
             elif urls.endswith('total_depense') or (urls.count('/total_depense/auth_page')):
                 print(f'{urls}/{urls_param}')
-                depence = LeyssareCaisse.objects.all()
+                depense = LeyssareDepenses.objects.all()
                 total = 0
-                for items in depence:
-                    total += items.montant_depencee
-                    print(total)
+                for items in depense:
+                    total += items.montant_depensee
+                    print(type(total))
+                    print(items.montant_depensee)
+                    print(items.nature_de_depense)
                 context = {'data': total,
+                           'depense':depense,
                            'user':user}
                 return render(request, 'leyssare/total_depense.html', context)
 
@@ -430,7 +457,7 @@ def user_versement(request):
             '''On ajoute la liste dans le dictionnaire avec son id '''
             data_file[f'{identifiant_user}: Cotisation {d}'] = user_data
 
-            '''On recupère seulement le derniére clé de notre dictionnaire'''
+            '''On recupère seulement la derniére clé de notre dictionnaire'''
             last_keys = list(data_file.keys())[-1]
             print(f'Voici la dernière clé {last_keys}')
 
@@ -479,6 +506,20 @@ def montant_depensee(request):
                 #On ajoute le montant qui vient d'être dépensé dans nos dépenses
                 sauvegarder = LeyssareDepenses(nature_de_depense=raison_depense, montant_depensee=depense)
                 sauvegarder.save()
+
+                #On ajoute les données dans un fichier JSON
+                BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
+                cotisation_json = BASE_DIR / 'BleyApp/static/JSONS/depenses.json'
+
+                with open(cotisation_json, 'r') as f:
+                    fil = json.load(f)
+
+                cmpter = len(fil) + 1
+                print(cmpter)
+                fil[f'{cmpter} raison_depense'] = raison_depense
+                fil[f'{cmpter} depense'] = depense
+                with open(cotisation_json, 'w') as f:
+                    json.dump(fil, f, indent=4, ensure_ascii=False)
                 context = {'data':'Montant dépensé'}
                 return render(request, 'leyssare/leyadmin/depensee.html', context)
             else:

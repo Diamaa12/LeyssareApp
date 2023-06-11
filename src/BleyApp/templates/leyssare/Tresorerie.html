@@ -15,8 +15,8 @@
           <div class="u-repeater u-repeater-1">
             <div class="u-container-style u-list-item u-repeater-item">
               <div class="u-container-layout u-similar-container u-container-layout-1"><span class="u-file-icon u-icon u-icon-1"><img src="{% static 'images/depencer.png'%}" alt=""></span>
-                <h3 class="u-align-center u-text u-text-default u-text-1">Dépensée</h3>
-                <p class="u-align-center u-text u-text-2">Pour plus d'information sur l'état de notre dépense, clicker le lien ci-dessous</p>
+                <h3 class="u-align-center u-text u-text-default u-text-1">Ètat de Caisse</h3>
+                <p class="u-align-center u-text u-text-2">Pour plus d'information sur l'état de notre caisse, clicker le lien ci-dessous</p>
                   {% with name="depensee" %}
                 <a href="{% url 'BleyApp:authentication' urls=request.path urls_param='depensee' %}" class="u-active-none u-border-2 u-border-palette-2-light-1 u-btn u-button-style u-hover-none u-none u-text-body-color u-btn-1">more info</a>
                     {% endwith %}

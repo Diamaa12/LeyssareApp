@@ -3,7 +3,7 @@ from django.urls import path, include
 from .views import index, accueil, membres, versees, propos, tresorerie, base, liste_membres, membres_ont_versees, \
     depensee, total_depense, capital_restante, gestion_caisse, etat_de_caisse, user_has_cotise, auth_user, \
     membres_registrer, user_versement, montant_depensee, admin_auth, create_account, admin_connexion, admin_deconnexion, \
-    admin_index
+    admin_index, mention_legal
 
 app_name = 'BleyApp'
 urlpatterns = [
@@ -35,6 +35,7 @@ urlpatterns = [
     path('tresorerie/etatcaisse', etat_de_caisse, name='etatcaisse'),
     path('Http', gestion_caisse),
     path('user', user_has_cotise),
+    path('mention', mention_legal, name='mention_legal'),
 
     path('sign/', admin_auth, name='AdminPage'),
 

@@ -1,0 +1,27 @@
+#cgu-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height:30%;
+  background-color: #2b4353;
+  padding: 10px;
+  padding-top:5px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  letter-spacing: -1px;
+  line-height: 1;
+  font-size: 14px;
+  overflow-y: auto; /* Ajout de la barre de défilement verticale */
+  max-height: 400px;
+  color:#fbfbfb;
+}
+#close-cgu {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding:15px;
+  background-color:#1a5fb5;
+  border-radius:3px;
+  color:#fbfbfb;
+  font-size:1.6em;
+}
