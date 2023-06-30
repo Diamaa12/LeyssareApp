@@ -35,6 +35,9 @@ class LeyssareDepenses(models.Model):
     date = models.DateField(auto_now=True)
 
 # Classe de Situation de caisse
+'''Cette class doit être initialiser au moins à 0 franc avant d'ajouter
+ d'autres sommes provenant de la class VersementLeyssare et LeyssareDepenses dessus,
+  sinon les données peuvent être faussé.'''
 class LeyssareCaisse(models.Model):
     montant_cfa_dispo = models.FloatField(null=False, blank=False)
     montant_fg_dispo = models.FloatField(null=False, blank=False)

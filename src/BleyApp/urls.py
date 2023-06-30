@@ -35,7 +35,7 @@ urlpatterns = [
     path('tresorerie/etatcaisse', etat_de_caisse, name='etatcaisse'),
     path('Http', gestion_caisse),
     path('user', user_has_cotise),
-    path('mention', mention_legal, name='mention_legal'),
+    path('mention/', mention_legal, name='mention_legal'),
 
     path('sign/', admin_auth, name='AdminPage'),
 

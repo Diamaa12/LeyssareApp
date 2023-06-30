@@ -206,17 +206,15 @@ def auth_user(request, urls, urls_param):
                 print(f'{urls}/{urls_param}')
                 return render(request, 'leyssare/etat_caisse.html', context)
             elif urls.endswith('depense_accumule') or (urls.count('/depense_accumule/auth_page')):
-                recup_versement_cfa = VersementLeyssare.objects.exclude(montant_cfa=None)
-                recup_versement_fg = VersementLeyssare.objects.exclude(montant_fg=None)
                 donnees = VersementLeyssare.objects.all()
                 obj = LeyssareCaisse.objects.all()
                 mnt_cfa = 0
                 mnt_fg = 0
                 mnt_dpse = 0
                 for data in obj:
-                    mnt_cfa = data.montant_cfa_dispo
-                    mnt_fg = data.montant_fg_dispo
-                    mnt_dpse = data.montant_depencee
+                    mnt_cfa += data.montant_cfa_dispo
+                    mnt_fg += data.montant_fg_dispo
+                    mnt_dpse += data.montant_depencee
                     print(data.montant_cfa_dispo, data.montant_fg_dispo, data.montant_depencee)
                 context = {'data': obj,
                            'cfa':mnt_cfa,
@@ -233,10 +231,10 @@ def auth_user(request, urls, urls_param):
                     total_somme_depensee += items.montant_depencee
 
                 # Ici, on récupère le dernier montant disponible
-                dernier_montant_dispo = LeyssareCaisse.objects.last().montant_fg_dispo
+                dernier_montant_fg_dispo = LeyssareCaisse.objects.last().montant_fg_dispo
                 dernier_montant_cfa = LeyssareCaisse.objects.last().montant_cfa_dispo
 
-                total_restante = dernier_montant_dispo - total_somme_depensee
+                total_restante = dernier_montant_fg_dispo - total_somme_depensee
 
                 context = {'fgn': total_restante,
                            'fcfa':dernier_montant_cfa,
@@ -407,6 +405,7 @@ def user_versement(request):
                 if montant_cfa.isdigit():
                     montant_versee_json = montant_cfa
                     montant_cfa = int(montant_cfa)
+
                     recup = LeyssareCaisse.objects.all()
                     for data_recup in recup:
                         #On ajoute cette somme à notre caisse LeyssareCaisse
