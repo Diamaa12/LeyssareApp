@@ -67,9 +67,7 @@ def membres_ont_versees(request):
         print('je suis ici ', periode_de_cotisation)
         with open(periode_de_cotisation, 'r') as f:
             data_json = json.load(f)
-        print(data_json)
         last_keys = list(data_json.keys())[-1]
-        print(f'Voici la dernière clé {last_keys}')
         context = {'data': ont_versees}
         return render(request, 'leyssare/membre_qui_ont_versees.html', context)
 
@@ -136,13 +134,11 @@ def gestion_caisse(request):
 def etat_de_caisse(request):
     recup_versement_cfa = VersementLeyssare.objects.exclude(montant_cfa=None).latest('id').montant_cfa
     recup_versement_fg = VersementLeyssare.objects.exclude(montant_fg=None).latest('id').montant_fg
-    print('Voici les données rechercher. ',recup_versement_cfa, recup_versement_fg)
     obj = LeyssareCaisse.objects.all()
     context={'data':obj}
     return render(request, 'leyssare/etat_caisse.html', context)
 def user_has_cotise(request):
     recup_user = VersementLeyssare.objects.last()
-    print(recup_user.prenom)
     user = recup_user.versionperiodique_set.all()
 
 
@@ -150,7 +146,6 @@ def user_has_cotise(request):
 
 
 def auth_user(request, urls, urls_param):
-    print(urls, urls_param)
     if request.method == 'POST':
         form = Authentification(request.POST)
         number = request.POST.get('id_number')
@@ -162,17 +157,13 @@ def auth_user(request, urls, urls_param):
             #on remplit les deux tableaux, l'ID_number et le prenom
             id_saved.append(i.id_number)
             prenoms.append(i.prenom)
-        print(id_saved)
         #Ici, on vérifie si l'ID_number que l'utilsateur à taper se trouve dans la base de données
         if number in id_saved:
             #On récupère l'index qui correspond à notre tableau ID_number
             recup_index = id_saved.index(number)
-            print(f'{recup_index}, est le index ')
             #On récupère ici l'index numéro recup_index de notre tableau prenoms[]
             user = prenoms[recup_index]
-            print(user)
             if urls.endswith('page_membres') or (urls.count('/page_membres/auth_page') >= 1):
-                print(urls.count('/page_membres/auth_page') >= 1)
                 membres = LeyssareMembres.objects.all()
 
                 context = {'data': membres,
@@ -181,7 +172,6 @@ def auth_user(request, urls, urls_param):
                 return render(request, 'leyssare/liste_membres.html', context)
             elif urls.endswith('membres_ont_versees') or urls.count('/membres_ont_versees/auth_page') >= 1:
                 ont_versees = VersementLeyssare.objects.all()  # à revoir le filtre ici
-                print(ont_versees)
 
                 # Recuperation de membres dans le fichier JSON
                 BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
@@ -189,10 +179,8 @@ def auth_user(request, urls, urls_param):
 
                 with open(periode_de_cotisation, 'r') as f:
                     data_json = json.load(f)
-                print(data_json)
                 '''Ici on recupere la dernière clé pour notre dictionnaire'''
                 last_keys = list(data_json.keys())[-1]
-                print(f'Voici la dernière clé {last_keys}')
 
                 context = {'data': ont_versees,
                            'user':user,
@@ -215,7 +203,6 @@ def auth_user(request, urls, urls_param):
                     mnt_cfa += data.montant_cfa_dispo
                     mnt_fg += data.montant_fg_dispo
                     mnt_dpse += data.montant_depencee
-                    print(data.montant_cfa_dispo, data.montant_fg_dispo, data.montant_depencee)
                 context = {'data': obj,
                            'cfa':mnt_cfa,
                            'fg':mnt_fg,
@@ -246,9 +233,6 @@ def auth_user(request, urls, urls_param):
                 total = 0
                 for items in depense:
                     total += items.montant_depensee
-                    print(type(total))
-                    print(items.montant_depensee)
-                    print(items.nature_de_depense)
                 context = {'data': total,
                            'depense':depense,
                            'user':user}
@@ -281,7 +265,6 @@ def create_account(request):
         password2 = request.POST.get('password2')
 
         user = f"Hello {username}"
-        print('Your account is create with succes')
         return render(request, 'leyssare/leyadmin/create_admin.html', {'user': user})
     else:
         form = MyForm()
@@ -304,16 +287,16 @@ def admin_connexion(request):
             if user is not None:
                 #On connecte l'utilisateur
                 login(request, user)
-                print(f"L'utilisateur existe bien authentifié  {user}")
+
                 context = {'data':f"Hello {username.upper()} You are connected in your Admin Page, you can add what you will in the Database."}
                 return render(request, 'leyssare/leyadmin/admin_auth.html', context)
             else:
-                print('Le mot de passe est faux.')
+
                 context = {'error': f'This Password is fals',
                            'form':form}
                 return render(request, 'registration/login.html', context)
         else:
-            print("L'utilisateur n'existe pas. ")
+
             context = {'error': f'This user dont exists ',
                        'form':form}
             return render(request, 'registration/login.html',context)
@@ -367,10 +350,6 @@ def membres_registrer(request):
                 # Load the data from the file as JSON
                 data = json.load(f)
 
-            # Print the data
-            print(data)
-
-            print(nom, prenom, pays, PERSONNAL_ID)
             context = {'data':'Utilisateur enregistré avec succés. '}
             return render(request, 'leyssare/leyadmin/user_creation.html', context)
         else:
@@ -411,7 +390,6 @@ def user_versement(request):
                         #On ajoute cette somme à notre caisse LeyssareCaisse
                         data_recup.montant_cfa_dispo += montant_cfa
                         data_recup.save()
-                        print(data_recup.montant_cfa_dispo)
                 else:
                     context = {'error2': 'Ce Champs doit être de type monnaie FCFA.'}
                     return render(request, 'leyssare/leyadmin/user_cotisation.html', context)
@@ -427,7 +405,6 @@ def user_versement(request):
                         # On ajoute cette somme à notre caisse LeyssareCaisse
                         data_recup.montant_fg_dispo += montant_fg
                         data_recup.save()
-                        print(data_recup.montant_fg_dispo)
 
 
                 else:
@@ -452,18 +429,15 @@ def user_versement(request):
             '''On compte les entrés de la liste et on ajoute 1 á la prochaine entrée'''
             ids = [ele for ele in data_file]
             identifiant_user = len(ids) + 1
-            print(identifiant_user, type(montant_versee_json))
             '''On ajoute la liste dans le dictionnaire avec son id '''
             data_file[f'{identifiant_user}: Cotisation {d}'] = user_data
 
             '''On recupère seulement la derniére clé de notre dictionnaire'''
             last_keys = list(data_file.keys())[-1]
-            print(f'Voici la dernière clé {last_keys}')
 
             with open(cotisation_json, 'w') as f:
                 json.dump(data_file, f, indent=4, ensure_ascii=False)
 
-            print(nom, prenom, pays)
             context = {'data': 'Utilisateur enregistré avec succés. '}
             return render(request, 'leyssare/leyadmin/user_cotisation.html', context)
         elif request.method == 'GET':
@@ -500,7 +474,6 @@ def montant_depensee(request):
                     #On ajoute le montant qui vient d'être depensé, à la somme totale des dépenses dans notre Caisse
                     data_recup.montant_depencee += depense
                     data_recup.save()
-                    print(data_recup.montant_depencee)
 
                 #On ajoute le montant qui vient d'être dépensé dans nos dépenses
                 sauvegarder = LeyssareDepenses(nature_de_depense=raison_depense, montant_depensee=depense)
