@@ -13,31 +13,32 @@
             <p class="para1">Membres de l'association Bolondha Leyssare</p>
             <p class="para_user">Salam {{user}}</p>
         </div>
-          <table class="table table-striped table-dark">
-              <thead>
-                <tr>
-                  <th scope="col">No </th>
-                  <th scope="">Id_number</th>
-                  <th scope="col">Nom</th>
-                  <th scope="col">Prenom</th>
-                  <th scope="col">Pays</th>
-                </tr>
-              </thead>
-              <tbody>
+        <div class="table-responsive">
+              <table class="table table-striped table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col">No </th>
+                      <th scope="">Id_number</th>
+                      <th scope="col">Nom</th>
+                      <th scope="col">Prenom</th>
+                      <th scope="col">Pays</th>
+                    </tr>
+                  </thead>
+                  <tbody>
 
-                    {% if data %}
-                        {% for data in data %}
-                        <tr>
-                          <th scope="row">{{data.id}}</th>
-                          <th scope="">{{data.id_number}}</th>
-                          <td class="">{{data.nom}}</td>
-                          <td class="">{{data.prenom}}</td>
-                          <td class="">{{data.pays}}</td>
-                        </tr>
-                        {% endfor %}
-                   {% endif %}
-              </tbody>
-    </table>
-
+                        {% if data %}
+                            {% for data in data %}
+                            <tr>
+                              <th scope="row">{{data.id}}</th>
+                              <th scope="">{{data.id_number}}</th>
+                              <td class="">{{data.nom}}</td>
+                              <td class="">{{data.prenom}}</td>
+                              <td class="">{{data.pays}}</td>
+                            </tr>
+                            {% endfor %}
+                       {% endif %}
+                  </tbody>
+        </table>
+    </div>
   </section>
 {% endblock %}

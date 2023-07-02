@@ -34,3 +34,7 @@ border:1px solid red;
     background-color: #0AD;
     margin: 10px;
 }
+.table_container{
+width:100%;
+overflow-x:auto;
+}

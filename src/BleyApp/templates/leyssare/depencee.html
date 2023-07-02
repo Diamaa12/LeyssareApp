@@ -13,51 +13,51 @@
     <link rel="stylesheet" href="{% static 'css/user_gestion.css'%}">
   <p class="para_user">Salam {{user}}</p>
   <section class="section">
-
-      <table class="table table-bordered table-dark">
-          <thead>
-            <tr>
-
-              <th scope="col">SOMME TTL. EN FCFA</th>
-              <th scope="col">SOMME TTL. EN FG</th>
-              <th scope="col">MONTANT TTL. DÉPENSÉ EN FG</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-                <!-- Ici, on affiche les données disponbile dans LeyssareCaisse  -->
-              <td class="fg-success">{{cfa}}</td>
-              <td class="fg-success">{{fg}}</td>
-              <td class="fg-success">{{mnt_d}}</td>
-            </tr>
-
-          </tbody>
-    </table>
-
-         <div class="table-responsive">
-            <table class="table table-striped table-dark">
+    <div class="table-responsive">
+          <table class="table table-bordered table-dark" id="table_somme">
               <thead>
                 <tr>
-                  <th scope="col">SOMME CÔTISÉ EN CFA </th>
-                  <th scope="col">SOMME CÔTISÉ EN  FGN</th>
-                  <th scope="col">DATE</th>
+
+                  <th scope="col">SOMME TTL. EN FCFA</th>
+                  <th scope="col">SOMME TTL. EN FG</th>
+                  <th scope="col">MONTANT TTL. DÉPENSÉ EN FG</th>
                 </tr>
               </thead>
               <tbody>
-                <!-- Ici, on affiche les données disponbile dans VersementLeyssare  -->
-                    {% if myList %}
-                        {% for items in myList%}
-                             <tr class="align-bottom">
-                              <td class="montant" scope="row">{% if items.montant_cfa != None %}{{items.montant_cfa}}{%endif%}</td>
-                              <td class="montant">{% if items.montant_fg != None %}{{items.montant_fg}}{%endif%}</td>
-                              <td class="">{{items.date}}</td>
-                            </tr>
-                        {% endfor %}
-                   {% endif %}
-              </tbody>
-    </table>
-    </div>
+                <tr>
+                    <!-- Ici, on affiche les données disponbile dans LeyssareCaisse  -->
+                  <td class="fg-success">{{cfa}}</td>
+                  <td class="fg-success">{{fg}}</td>
+                  <td class="fg-success">{{mnt_d}}</td>
+                </tr>
 
+              </tbody>
+        </table>
+
+             <div class="table-responsive">
+                <table class="table table-striped table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col">SOMME CÔTISÉ EN CFA </th>
+                      <th scope="col">SOMME CÔTISÉ EN  FGN</th>
+                      <th scope="col">DATE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Ici, on affiche les données disponbile dans VersementLeyssare  -->
+                        {% if myList %}
+                            {% for items in myList%}
+                                 <tr class="align-bottom">
+                                  <td class="montant" scope="row">{% if items.montant_cfa != None %}{{items.montant_cfa}}{%endif%}</td>
+                                  <td class="montant">{% if items.montant_fg != None %}{{items.montant_fg}}{%endif%}</td>
+                                  <td class="">{{items.date}}</td>
+                                </tr>
+                            {% endfor %}
+                       {% endif %}
+                  </tbody>
+        </table>
+        </div>
+    </div>
   </section>
 <script type="text/javascript"  src="{% static 'scripts/depensee.js' %}" async></script>
 {% endblock %}
