@@ -15,6 +15,7 @@
   overflow-y: auto; /* Ajout de la barre de défilement verticale */
   max-height: 400px;
   color:#fbfbfb;
+  border-radius:5px;
 }
 #close-cgu {
   position: absolute;

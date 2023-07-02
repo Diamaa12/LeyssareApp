@@ -307,4 +307,19 @@
   .u-social-icons-1{
     background-color:#2e6021;
   }
+  #sec-01e0{
+      padding:0px;
+  }
+  #div-footer{
+      position: relative;
+      width:100%;
+      overflow:hidden;
+      margin:auto;
+
+  }
+
+  #mailto,#powered{
+    display:inline;
+      padding:3px;
+  }
 }
