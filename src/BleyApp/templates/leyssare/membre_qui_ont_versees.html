@@ -19,12 +19,12 @@
 
               <thead>
                 <tr>
-                  <th scope="col">No </th>
-                  <th scope="col">Nom</th>
-                  <th scope="col">Prenom</th>
-                  <th scope="col">Pays</th>
-                  <th scope="col">En CFA</th>
-                  <th scope="col">En FGN</th>
+                  <th id="idt" scope="col">No </th>
+                  <th id="nom" scope="col">Nom</th>
+                  <th id="prenom" scope="col">Prenom</th>
+                  <th id='pays' scope="col">Pays</th>
+                  <th id="cfa" scope="col">CFA</th>
+                  <th id="fgn" scope="col">FGN</th>
                   <th scope="col">Date</th>
                 </tr>
               </thead>
@@ -34,19 +34,19 @@
                         {% for data in data %}
                         <tr class="align-bottom">
 
-                          <th scope="row">{{data.id}}</th>
-                          <td class="">{{data.nom}}</td>
-                          <td class="">{{data.prenom}}
-                          <td class="">{{data.pays}}</td>
-                          {% if data.montant_cfa != None %}
-                          <td class="monnaie">{{data.montant_cfa}}</td>
+                          <th class="ids" scope="row">{{data.id}}</th>
+                          <td class="noms">{{data.nom}}</td>
+                          <td class="prenoms">{{data.prenom}}
+                          <td class="pays_value">{{data.pays}}</td>
+                            {% if data.montant_cfa != None %}
+                                <td  class="cfa">{{data.montant_cfa}}</td>
                            {% else %}
-                          <td class=""></td>
-                          {% endif %}
-                          {% if data.montant_fg != None %}
-                          <td class="monnaie">{{data.montant_fg}}</td>
+                                <td class="cfa"></td>
+                            {% endif %}
+                           {% if data.montant_fg != None %}
+                                <td class="fgn">{{data.montant_fg}}</td>
                            {% else %}
-                          <td class=""></td>
+                            <td class="fgn"></td>
                           {% endif %}
                           <td>{{data.date}}</td>
 
