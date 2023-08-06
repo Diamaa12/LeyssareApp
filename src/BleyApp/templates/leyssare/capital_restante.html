@@ -8,27 +8,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="{% static 'css/nicepage.css'%}" media="screen">
-    <link rel="stylesheet" href="{% static 'css/total_depense.css'%}" media="screen">
     <link rel="stylesheet" href="{% static 'css/user_gestion.css'%}">
   <p class="para_user">Salam {{user}}</p>
   <section class="section">
       <table class="table table-striped table-dark">
           <thead>
             <tr>
-              <th scope="col">Total disponible en FGN</th>
-              <th scope="col">Total disponbible en FCFA</th>
+              <th id="fgn" scope="col">Total disponible en FGN</th>
+              <th id="cfa" scope="col">Total disponbible en FCFA</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td> {% if fgn %}
-                    <p class="somme">{{fgn}}</p>
-                    {% endif %}
-              </td>
-              <td> {% if fgn %}
-                    <p class="somme">{{fcfa}}</p>
-                    {% endif %}
-              </td>
+                {% if fgn %}
+                    <td  id="somme_fg" class="somme"> {{fgn}}</td>
+                {% endif %}
+                {% if fgn %}
+                 <td id="somme_cfa" class="somme">{{fcfa}}</td>
+                {% endif %}
           </tbody>
       </table>
 

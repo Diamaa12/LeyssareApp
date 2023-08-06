@@ -17,11 +17,11 @@
               <table class="table table-striped table-dark">
                   <thead>
                     <tr>
-                      <th scope="col">No </th>
-                      <th scope="">Id_number</th>
-                      <th scope="col">Nom</th>
-                      <th scope="col">Prenom</th>
-                      <th scope="col">Pays</th>
+                      <th   id="id" scope="col">No </th>
+                      <th   id="id_number" scope="">Id_number</th>
+                      <th   id="nom" scope="col">Nom</th>
+                      <th   id="prenom" scope="col">Prenom</th>
+                      <th   id="pays" scope="col">Pays</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -29,11 +29,11 @@
                         {% if data %}
                             {% for data in data %}
                             <tr>
-                              <th scope="row">{{data.id}}</th>
-                              <th scope="">{{data.id_number}}</th>
-                              <td class="">{{data.nom}}</td>
-                              <td class="">{{data.prenom}}</td>
-                              <td class="">{{data.pays}}</td>
+                              <th   class="ids" scope="row">{{data.id}}</th>
+                              <th   class="id_numbers" scope="">{{data.id_number}}</th>
+                              <td    class="noms">{{data.nom}}</td>
+                              <td    class="prenoms">{{data.prenom}}</td>
+                              <td    class="contry">{{data.pays}}</td>
                             </tr>
                             {% endfor %}
                        {% endif %}
@@ -41,4 +41,5 @@
         </table>
     </div>
   </section>
+<script type="text/javascript"  src="{% static 'scripts/liste_membres.js' %}" async></script>
 {% endblock %}

@@ -1,9 +1,21 @@
+//Mise en forme
+let cfa = document.getElementById('cfa');
+let fgn = document.getElementById('fgn');
+cfa.style.backgroundColor = '#08a2c1';
+fgn.style.backgroundColor = '#ab08c1';
+
+let cfa_value = document.getElementById('somme_cfa');
+let fg_value = document.getElementById('somme_fg');
+cfa_value.style.backgroundColor = 'rgba(8, 162, 193, 0.3)';
+fg_value.style.backgroundColor = 'rgba(171, 8, 193, 0.3)';
+
+
 //On recupere les classes monnaie
 
 let elements = document.getElementsByClassName('somme');
 for (let i = 0; i < elements.length; i++) {
   //On change la couleur du text, et son poid
-  elements[i].style.color = 'green';
+  elements[i].style.color = 'white';
   elements[i].style.fontWeight = 'bold';
   //On recupère la somme en String
   let number = elements[i].innerHTML;
