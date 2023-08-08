@@ -1,5 +1,6 @@
 import datetime
 import json
+import logging
 import pathlib
 import random
 from django.contrib.auth import authenticate, login, logout
@@ -15,6 +16,8 @@ from faker import Faker
 import itertools
 from django.template.loader import render_to_string
 # Create your views here.
+
+BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
 def base(request):
     return  render(request, 'leyssare/Accueil.html')
 def index(request):
@@ -161,8 +164,23 @@ def auth_user(request, urls, urls_param):
         if number in id_saved:
             #On récupère l'index qui correspond à notre tableau ID_number
             recup_index = id_saved.index(number)
+
             #On récupère ici l'index numéro recup_index de notre tableau prenoms[]
             user = prenoms[recup_index]
+            #Création de fichier json pour voir les membres qui ont visités le site
+            date = datetime.datetime.now()
+            date_trimer = date.strftime('%d. %m. %Y - %H h %M mn %S second.')
+            user_logged_file = BASE_DIR / 'BleyApp/static/JSONS/user_logged_file.json'
+            with open(user_logged_file, 'r') as f:
+                fil = json.load(f)
+            fil[date_trimer] = f"{user} s'est connecté. "
+            with open(user_logged_file, 'w') as f:
+                json.dump(fil, f, indent=4, ensure_ascii=False)
+
+            # Gestion de fichier log
+            logging.basicConfig(level=logging.INFO, filename="BleyApp/log/user_logged.log", filemode="a",
+                                encoding='utf-8', format="%(asctime)s - %(message)s")
+            logging.info(f"{user}, s'est connecté.!")
             if urls.endswith('page_membres') or (urls.count('/page_membres/auth_page') >= 1):
                 membres = LeyssareMembres.objects.all()
 
@@ -174,8 +192,8 @@ def auth_user(request, urls, urls_param):
                 ont_versees = VersementLeyssare.objects.all()  # à revoir le filtre ici
 
                 # Recuperation de membres dans le fichier JSON
-                BASE_DIR = pathlib.Path(__file__).resolve().parent.parent
-                periode_de_cotisation = BASE_DIR / 'BleyApp/static/JSONS/cotisation.json'
+
+                periode_de_cotisation = BASE_DIR / 'BleyApp\static\JSONS\cotisation.json'
 
                 with open(periode_de_cotisation, 'r') as f:
                     data_json = json.load(f)
